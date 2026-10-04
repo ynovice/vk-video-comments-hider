@@ -1,0 +1,42 @@
+/*
+ * Скрытие блока комментариев на vkvideo.ru.
+ *
+ * Все правила завёрнуты в html.vkch-hidden: класс вешает content.js, когда
+ * настройка включена. Скрытие делает только CSS — поэтому оно само применяется
+ * и к комментариям, дорисованным позже, и при переходах внутри SPA.
+ *
+ * Проверено на живой странице 4 октября 2026. ВК отдаёт React-версию: ни одного
+ * класса со словом «comment» в разметке нет, только хешированные vkit-XXXXXX,
+ * которые меняются на каждой сборке. Поэтому список комментариев опознаётся не
+ * по имени, а по позиции — как сосед, идущий сразу за помеченной шапкой.
+ */
+
+/* Шапка блока комментариев: «160 комментариев» и выпадашка сортировки.
+   Атрибут ставит content.js, найти этот контейнер селектором нельзя — см.
+   комментарий в markComments(). */
+html.vkch-hidden [data-vkch-comments],
+
+/* Список комментариев и пагинация — всё, что идёт следом за помеченной шапкой
+   в том же контейнере (section.Page__container--*). Плеер и заголовок видео
+   идут ДО шапки, поэтому под это правило не попадают. */
+html.vkch-hidden [data-vkch-comments] ~ *,
+
+/* Фолбэк на случай, если content.js не успел или не смог пометить шапку:
+   прячем хотя бы счётчик и сортировку. */
+html.vkch-hidden [data-testid="video-comments-count"],
+html.vkch-hidden [data-testid="video-comments-sorting"],
+html.vkch-hidden [data-testid="video_page_show_comments_button"],
+
+/* Legacy-разметка: в браузере сейчас не встречается, но живёт в css/al/videoview
+   у ВК, то есть части пользователей по A/B-тесту может отдаваться. Держим как
+   страховку — это правила-пустышки, ни на что не влияют. */
+html.vkch-hidden #mv_comments_wrap,
+html.vkch-hidden [class*="LayerInfo__commentsWrap"],
+html.vkch-hidden #mv_comments_header,
+html.vkch-hidden #mv_comments_summary,
+html.vkch-hidden #mv_comments,
+html.vkch-hidden .mv_no_comments,
+html.vkch-hidden .mv_comments_restricted_msg,
+html.vkch-hidden [class*="LayerInfo__commentsReply"] {
+  display: none !important;
+}

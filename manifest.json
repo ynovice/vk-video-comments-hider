@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "VK Video Comments Hider",
+  "version": "1.0",
+  "description": "Скрывает блок комментариев под видео на vkvideo.ru. Управляется тумблером в попапе расширения.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "vk-video-comments-hider@ynovice",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.vkvideo.ru/*"],
+      "css": ["hide.css"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "VK Video Comments Hider",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon.svg",
+      "32": "icons/icon.svg",
+      "64": "icons/icon.svg"
+    }
+  },
+  "icons": {
+    "32": "icons/icon.svg",
+    "64": "icons/icon.svg"
+  }
+}
